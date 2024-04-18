@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head lang="ru">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=no">
+    <title>Home</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.2.0/socket.io.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        html{
+            height: 100%;
+            background-color: rgb(34, 34, 34);
+        }
+        A {
+            color: rgb(255, 255, 255); 
+            text-decoration: none;
+        }
+        A:visited {
+            color: #ffffff; 
+            text-decoration: none;
+        }
+        A:active {
+            color: #ffffff; 
+            text-decoration: none;
+        }
+        body{
+            margin: 0px;
+            padding: 0px;
+        }
+        div {outline:none;}
+        .bar{
+            display: inline-block;;
+            width: 100%;
+            height: 50px;
+            line-height: 50px;
+            position: relative;
+            top: 0px;
+            background-color: rgb(40, 40, 40);
+            font-size: 25px;
+            border-bottom: 1.5px solid rgb(77, 77, 77);
+        }
+    </style>
+</head>
+<body>
+    <div class="bar">
+        <a style="color: white; margin-left: 12px; float: left; font-size: 20px; width: 10px; padding-top: 8px;" href="/openMenu">
+            <svg xmlns="http://www.w3.org/2000/svg" width="28px" height="28px" fill="white" class="bi bi-list" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5"/>
+            </svg></a>
+        <i style="float: left; margin-left: 30px; height: 80px; color: whitesmoke; margin-top: 3px;">Metal house</i>
+
+        <a style="color: white; margin-right: 35px; float: right; font-size: 20px; width: 10px; padding-top: 8px;" href="/linkFind">
+            <svg xmlns="http://www.w3.org/2000/svg" width="25px" height="25px" fill="white" class="bi bi-search" viewBox="0 0 16 16">
+                <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
+            </svg>
+        </a>
+    </div>
+
+    <div style="width: 100%; height: auto;">
+        {% for i in chat %}
+            <a href="/openchat?chat_mPRTID={{i['id']}}" style="width: 100%;">
+                <div style="width: 100%; height: 60px; float: left; margin-bottom: 8px; border-radius: 5px; background-color: rgb(27, 27, 27); border-bottom: 1.5px solid black;">
+                    <div style="float: left;"><img src="static/ava/{{i['ava']}}" style="width: 50px; height: 50px; border-radius: 50%; margin-top: 5px; margin-left: 10px; float: left;"/></div>
+                    <div style="margin-left: 20px; height: 54px; color: white; float: left; letter-spacing: 1px; padding-top: 6px;"><i>{{i['name']}}</i></div>
+                </div>
+            </a>
+        {% endfor %}
+    </div>
+</body>
+</html>

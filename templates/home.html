@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+<head lang="ru">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=no">
+    <title>Home</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.2.0/socket.io.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        html{
+            height: 100%;
+            background-image: url("static/world_fone.jpeg");
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
+        body{
+            margin: 0px;
+            padding: 0px;
+        }
+        
+        A {
+            color: rgb(255, 255, 255); 
+            text-decoration: none;
+        }
+        A:visited {
+            color: #ffffff; 
+            text-decoration: none;
+        }
+        A:active {
+            color: #ffffff; 
+            text-decoration: none;
+        }
+        body{
+            margin: 0px;
+            padding: 0px;
+        }
+        div {outline:none;}
+        .text-home{
+            position: fixed;
+            bottom: 0px;
+            width: 100%;
+            height: 50px;
+            z-index: 100;
+            background-color: rgb(36, 36, 36);
+            min-height: 40px; 
+            max-height: 200px;
+
+        }
+        .txt_form1{
+            position: absolute; 
+            bottom: 0px;
+            background-color: rgb(36, 36, 36);
+            min-height: 40px; 
+            max-height: 180px;
+            z-index: 0;
+            width: 100%;
+            float: left;
+        }
+        
+        .text{
+            line-height: 30px;
+            width: 85%;
+            margin-left: 5%;
+            float: left;
+            color: whitesmoke;
+            overflow-y: scroll;
+            min-height: 40px;
+            max-height: 180px;
+            z-index: 102;
+        }
+        .bar{
+            display: inline-block;
+            width: 100%;
+            height: 55px;
+            line-height: 55px;
+            position: fixed;
+            top: 0px;
+            background-color: rgb(40, 40, 40);
+            font-size: 25px;
+            z-index: 103;
+            
+        }
+    </style>
+</head>
+<body>
+    <div class="bar">
+        <a style="margin-left: 2px; margin-right: 17px; color: white; float: left; line-height: 100%; margin-top: 10px;" href="\linkHub">
+            <b><svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-arrow-left-short" viewBox="0 0 10 16">
+                <path fill-rule="evenodd" d="M12 8a.5.5 0 0 1-.5.5H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5a.5.5 0 0 1 .5.5"/>
+              </svg></b>
+        </a>
+        
+        <a>
+            <img src="static/ava/{{ava}}" style="width: 45px; height: 45px; border-radius: 50%; float: left; margin-top: 8px;"/>
+        </a>
+
+        <i style="float: left; margin-left: 14px; height: 80px; color: whitesmoke; margin-top: 3px;">{{name}}</i>
+    </div> 
+    <div style="width: 100%; margin-top: 65px; color: white; position: absolute; bottom: 53px; overflow: auto; max-height: calc(100% - 108px)" id="messages">
+        {% for i in messages:%}
+            {% if i['from'] == user_id %}
+                <div style="width: 100%; height: auto; margin-bottom: 5px; text-align: right; float: right; margin-right: 8px; border-top-left-radius: 5px; border-top-right-radius: 5px; border-bottom-left-radius: 5px;">
+                    <div style="max-width: 80%; background-color: rgb(67, 67, 67); border-top-left-radius: 5px; border-top-right-radius: 5px; border-bottom-left-radius: 5px; float: right; padding: 7px;">
+                        {{i['txt']}}
+                    </div>
+                </div>
+            {% else %}
+                <div style="width: 100%; height: auto; margin-bottom: 5px; text-align: left; float: right; margin-right: 8px; border-bottom-right-radius: 5px; border-top-left-radius: 5px; border-top-right-radius: 5px;">
+                    <img src="static/ava/{{ava}}" style="width: 45px; height: 45px; border-radius: 50%; float: left; margin-left: 16px; margin-right: 10px; ">
+                    <div style="max-width: 68%; margin-left: 68px; background-color: rgb(31, 31, 31); border-bottom-right-radius: 5px; border-top-left-radius: 5px; border-top-right-radius: 5px; padding: 7px;">
+                        {{i['txt']}}
+                    </div>
+                </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+    <div class="text-home">
+        <form id="message-form" >
+            <div class="txt_form1">
+                <div contenteditable="true" role="textbox" class="text" placeholder="Сообщение" id="input-message"></div>
+            </div>
+            <button type="submit" style="height: 50px; z-index: 1000; border: 1px gray solid; border-radius: 4px; float: right; left: -3%; position: relative; font-size: 30px; color: white; line-height: 50px; background-color: rgba(0,0,0,0);">➤</button>
+        </form>
+    </div>
+    <div style="position: fixed; bottom: 0px; z-index: 0; width: 100%; height: 10px; background-color: rgb(36, 36, 36);"></div>
+    <div style="font-size: 0px; width: 0px; height: 0px; position: absolute;" id="id_chat">{{chat_id}}</div>
+    <div style="font-size: 0px; width: 0px; height: 0px; position: absolute;" id="id_user">{{user_id}}</div>
+
+    <script>
+        var objDiv = document.getElementById("messages");
+        objDiv.scrollTop = objDiv.scrollHeight;
+    </script>
+    <script type="text/javascript">
+        window.onbeforeunload = function() {
+          return "Dude, are you sure you want to leave? Think of the kittens!";
+        }
+          console.log('http://' + document.domain + ':' + location.port)
+          let socket = io();
+  
+          socket.on('message', function(message) {
+            if (message['chat_id'] == $('#id_chat').text()){
+                if ($('#id_user').text() == message['from']){
+                    let d1 = document.createElement('div');
+                    d1.style = "width: 100%; height: auto; margin-bottom: 5px; text-align: right; float: right; margin-right: 8px; border-top-left-radius: 5px; border-top-right-radius: 5px; border-bottom-left-radius: 5px;";
+                    let d2 = document.createElement('div');
+                    d2.style = "max-width: 80%; background-color: rgb(67, 67, 67); border-top-left-radius: 5px; border-top-right-radius: 5px; border-bottom-left-radius: 5px; float: right; padding: 7px;";
+                    d2.textContent = message['txt'];
+                    d1.append(d2)
+                    $('#messages').append(d1);
+                    $('#messages').append($('br'));
+                } else{
+                    let d1 = document.createElement('div');
+                    d1.style = "width: 100%; height: auto; margin-bottom: 5px; text-align: left; float: right; margin-right: 8px; border-bottom-right-radius: 5px; border-top-left-radius: 5px; border-top-right-radius: 5px;";
+                    let d2 = document.createElement('div');
+                    d2.style = "max-width: 68%; margin-left: 68px; background-color: rgb(31, 31, 31); border-bottom-right-radius: 5px; border-top-left-radius: 5px; border-top-right-radius: 5px; padding: 7px;";
+                    d2.textContent = message['txt'];
+                    d1.append(d2)
+                    $('#messages').append(d1);
+                    $('#messages').append($('br'));
+                }
+            }
+              
+          });  
+  
+          $(function() {
+              $('form#message-form').submit(function(event) {
+                  event.preventDefault();
+                  var message = $('#input-message').text();
+                  socket.emit('message', message + ":::::" + $('#id_user').text() + ":::::" + $('#id_chat').text());
+                  console.log(message + ":::::" + $('#id_user').text() + ":::::" + $('#id_chat').text())
+                  $('#input-message').text('');
+              });
+          });
+      </script>
+</body>
+</html>

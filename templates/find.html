@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head lang="ru">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=no">
+    <title>registration</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.2.0/socket.io.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        html{
+            background-color: rgb(30, 30, 30);
+            margin: 0px;
+            padding: 0px;
+        }
+        body{
+            margin: 0px;
+            padding: 0px;
+        }
+        .bar{
+            display: inline-block;
+            width: 100%;
+            height: 55px;
+            line-height: 55px;
+            position: fixed;
+            top: 0px;
+            background-color: rgb(40, 40, 40);
+            font-size: 25px;
+            z-index: 103;
+            border-bottom: 1.5px solid rgb(56, 56, 56);
+            
+        }
+        .button{
+            appearance: none;
+            display: inline-flex; 
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="bar">
+        <a style="margin-left: 2px; margin-right: 17px; color: white; float: left; line-height: 100%; margin-top: 10px;" href="\linkHub">
+            <b>
+                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-arrow-left-short" viewBox="0 0 10 16">
+                    <path fill-rule="evenodd" d="M12 8a.5.5 0 0 1-.5.5H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5a.5.5 0 0 1 .5.5"/>
+                </svg>
+            </b>
+        </a>
+
+        <form style="width: calc(100% - 80px); margin-right: 15px; height: 55px; float: right;">
+            <input type="text" name="txt" style="float: left; width: 80%; height: 37px; margin-top: 8px; color: white; background-color: rgba(0,0,0,0); border: 1px rgb(81, 81, 81) solid; border-radius: 5px;">
+            <button type="submit" name="Find" style="float: right; width: 15%; height: 40px; margin-top: 8px; color: white; padding-bottom: 8px; font-size: 30px; line-height: 40px; background-color: rgba(0,0,0,0); border: 1px rgb(81, 81, 81) solid; border-radius: 5px;">⇄</button>
+        </form>
+    </div> 
+
+    <div style="width: 100%; height: auto; margin-top: 57px;">
+        {% for i in users:%}
+            <a href="/start_chat?id={{i['idd']}}" style="width: 100%;">
+                <div style="width: 100%; height: 60px; float: left; margin-bottom: 8px; border-radius: 5px; background-color: rgb(27, 27, 27); border-bottom: 1.5px solid black;">
+                    <div style="float: left;"><img src="static/ava/{{i['ava']}}" style="width: 50px; height: 50px; border-radius: 50%; margin-top: 5px; margin-left: 10px; float: left;"/></div>
+                    <div style="margin-left: 20px; height: 54px; color: white; float: left; letter-spacing: 1px; padding-top: 6px;"><i>{{i['name']}}</i></div>
+                </div>
+            </a>
+        {% endfor %}
+    </div>
+</body>
+</html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head lang="ru">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=no">
+    <title>registration</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.2.0/socket.io.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        html{
+            background-color: rgb(30, 30, 30);
+            margin: 0px;
+            padding: 0px;
+        }
+    </style>
+</head>
+<body>
+    <form method="post" action="reg">
+    <div style="width: 100%; margin-top: 200px; text-align: center;">
+        <label style="font-size: 25; color: white;">Регестрация</label>
+    <br>
+        <label style="font-size: 12px; color: grey;">Предумай себе имя, а после пароль. Если всё ок - то дабро!</label>
+    <br><br><br>
+        <input type="text" placeholder="имя" name="name" style="width: 85%; height: 35px;background-color: rgb(30, 30, 30); line-height: 35px; color: white; border-radius: 5px; border: 1px rgb(50, 50, 50) solid; margin-bottom: 15px;">
+        <br>
+        <input type="password" id="password-input" placeholder="Пароль" name="password" style="width: 85%; height: 35px; background-color: rgb(30, 30, 30); line-height: 35px; color: white; border-radius: 5px; border: 1px rgb(50, 50, 50) solid; margin-bottom: 15px;">
+        <br>
+        <div style="margin-left: 7.5%; float: left; color: grey;"><input type="checkbox" class="password-checkbox"> Показать пароль</div>
+        <br> <br>
+        <input type="submit" style="width: 50%; height: 35px; background-color: rgb(30, 30, 30); color: white; border-radius: 5px; border: 1px rgb(50, 50, 50) solid;" value="Зарегестрироваться">
+        <br> <a href="/linkVhod" style="font-size: 14px; color: rgb(203, 203, 203);">Есть аккаунт?</a>
+        <p style="font-size: 12px; color: grey;">{{ error }}</p>
+    </div>
+    </form>
+    <script>
+        $('body').on('click', '.password-checkbox', function(){
+        if ($(this).is(':checked')){
+            $('#password-input').attr('type', 'text');
+        } else {
+            $('#password-input').attr('type', 'password');
+        }
+        }); 
+    </script>
+</body>
+</html>
